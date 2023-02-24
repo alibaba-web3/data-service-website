@@ -5,7 +5,7 @@ export default function Download() {
     <div>
       <h2>回测数据下载</h2>
 
-      <a href="http://8.222.145.211:8082/api/download/tvl">Binance 现货价格-日线</a>
+      <a href="http://8.222.145.211:8082/api/download/spot/1d">Binance 现货价格-日线</a>
       <br />
       <br />
       <a href="http://8.222.145.211:8082/api/download/tvl">TVL</a>
