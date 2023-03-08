@@ -30,12 +30,12 @@ export default [
     icon: 'table',
     path: '/dataset',
     routes: [
-      {
-        path: '/dataset/tags',
-        name: '数据标签',
-        icon: 'TagsOutlined',
-        component: './TableList',
-      },
+      // {
+      //   path: '/dataset/tags',
+      //   name: '数据标签',
+      //   icon: 'TagsOutlined',
+      //   component: './TableList',
+      // },
       {
         path: '/dataset/download',
         name: '数据下载',
