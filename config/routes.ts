@@ -37,10 +37,10 @@ export default [
         component: './TableList',
       },
       {
-        path: '/dataset/qt',
-        name: '量化',
+        path: '/dataset/download',
+        name: '数据下载',
         icon: 'TagsOutlined',
-        component: './TableList',
+        component: './Download',
       },
     ],
   },
