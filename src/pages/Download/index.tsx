@@ -3,12 +3,12 @@ export default function Download() {
     <div>
       <h2>回测数据下载</h2>
 
-      <a href="http://8.222.145.211:8082/api/download/spot/1d">
+      <a href="http://8.222.145.211:8082/api/download/spot/1d" target="_blank">
         Binance 现货价格-日线
       </a>
       <br />
       <br />
-      <a href="http://8.222.145.211:8082/api/download/tvl/1d">TVL</a>
+      <a href="http://8.222.145.211:8082/api/download/tvl/1d" target="_blank">TVL</a>
       <br />
       <br />
       {/* <a href="http://8.222.145.211:8082/api/download/erc20/user/1d">合约调用次数</a>
