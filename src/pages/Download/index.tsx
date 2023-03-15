@@ -68,6 +68,15 @@ const Download: React.FC = () => {
     return listData.filter((item) => item.tab === key);
   };
 
+  /**
+   * 下载文件
+   * @param url
+   */
+  const downloadFile = (url: string) => {
+    // 解决 http 下载问题
+    window.open(url, '_blank');
+  };
+
   return (
     <PageContainer>
       <Card
@@ -102,7 +111,7 @@ const Download: React.FC = () => {
                     <Button
                       type="primary"
                       icon={<DownloadOutlined />}
-                      href={item.url}
+                      onClick={() => downloadFile(item.url)}
                     />
                   </List.Item>
                 )}
