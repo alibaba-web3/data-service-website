@@ -73,9 +73,8 @@ const Download: React.FC = () => {
    * @param url
    */
   const downloadFile = (url: string) => {
-    let newUrl = url.replace('http', 'https');
     // 解决 http 下载问题
-    window.open(newUrl, '_self');
+    window.open(url, '_blank');
   };
 
   return (
@@ -112,7 +111,6 @@ const Download: React.FC = () => {
                     <Button
                       type="primary"
                       icon={<DownloadOutlined />}
-                      href={item.url}
                       onClick={() => downloadFile(item.url)}
                     />
                   </List.Item>
