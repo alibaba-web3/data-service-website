@@ -38,26 +38,29 @@ export const createRequest = (options: any) => {
     });
   };
 
-  const post = (url: string, params: any = {}) => {
+  const post = (url: string, params: any = {}, data: any = {}) => {
     return instance({
       method: 'post',
       url,
-      data: params,
+      params,
+      data,
     });
   };
 
-  const put = (url: string, params: any = {}) => {
+  const put = (url: string, params: any = {}, data: any = {}) => {
     return instance({
       method: 'put',
       url,
-      data: params,
+      params,
+      data,
     });
   };
 
-  const del = (url: string) => {
+  const del = (url: string, params: any = {}) => {
     return instance({
       method: 'delete',
       url,
+      params,
     });
   };
 
