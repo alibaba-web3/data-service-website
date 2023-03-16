@@ -1,4 +1,3 @@
-import { addRule, removeRule, updateRule } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -21,7 +20,7 @@ const TableList: React.FC = () => {
   const [createTagModalOpen, handleTagModalOpen] = useState<boolean>(false);
   const [createCateModalOpen, handleCateModalOpen] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any>([]);
 
   const fetchCategory = async () => {
     const res: any = await request.get('/tag/category/list');
@@ -48,9 +47,9 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns[] = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      hideInSearch: true,
+      title: '类别',
+      dataIndex: 'categoryId',
+      valueEnum,
     },
     {
       title: '名称',
@@ -58,14 +57,9 @@ const TableList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '分类',
-      dataIndex: 'categoryId',
-      render: (dom, entity) => {
-        console.log('🚀 ~ file: index.tsx:128 ~ entity:', entity);
-        console.log('🚀 ~ file: index.tsx:131 ~ dom:', dom);
-        return dom;
-      },
-      valueEnum,
+      title: '备注',
+      dataIndex: 'note',
+      hideInSearch: true,
     },
   ];
 
@@ -87,7 +81,7 @@ const TableList: React.FC = () => {
             }}
           >
             <PlusOutlined />
-            新建标签
+            新增标签
           </Button>,
           <Button
             key="secondary"
@@ -96,26 +90,35 @@ const TableList: React.FC = () => {
             }}
           >
             <PlusOutlined />
-            新建分类
+            新增类别
           </Button>,
         ]}
         request={async (params: any) => {
-          console.log('🚀 ~ file: index.tsx:212 ~ request={ ~ params:', params);
-          const res: any = await request.get('/tag/list', params);
-          return {
-            data: res.list,
-            success: true,
-          };
+          let res: any;
+          if (params.categoryId) {
+            res = await request.get('/tag/page', params);
+            return {
+              data: res.list,
+              total: res.total,
+              success: true,
+            };
+          } else {
+            res = await request.get('/tag/list', params);
+            return {
+              data: res,
+              success: true,
+            };
+          }
         }}
         columns={columns}
       />
       <ModalForm
-        title="新建标签"
+        title="新增标签"
         width="400px"
         open={createTagModalOpen}
         onOpenChange={handleTagModalOpen}
         onFinish={async (value) => {
-          const success = await request.post('/api/tag', value);
+          const success = await request.post('/tag', value);
           if (success) {
             handleTagModalOpen(false);
             if (actionRef.current) {
@@ -128,34 +131,34 @@ const TableList: React.FC = () => {
           rules={[
             {
               required: true,
-              message: '需要输入标签名称',
+              message: '需要输入名称',
             },
           ]}
           width="md"
           name="name"
-          label="标签名称"
+          label="名称"
         />
         <ProFormSelect
           name="categoryId"
-          label="标签分类"
+          label="类别"
           width="md"
           valueEnum={valueEnum}
           rules={[
             {
               required: true,
-              message: '需要选择标签分类',
+              message: '需要选择类别',
             },
           ]}
         />
         <ProFormTextArea label="标签备注" width="md" name="note" />
       </ModalForm>
       <ModalForm
-        title="新建分类"
+        title="新增类别"
         width="400px"
         open={createCateModalOpen}
         onOpenChange={handleCateModalOpen}
         onFinish={async (value) => {
-          const success = await request.post('/api/tag/category', value);
+          const success = await request.post('/tag/category', value);
           if (success) {
             handleCateModalOpen(false);
             if (actionRef.current) {
@@ -168,7 +171,7 @@ const TableList: React.FC = () => {
           rules={[
             {
               required: true,
-              message: '需要输入分类名称',
+              message: '需要输入类别名称',
             },
           ]}
           width="md"
