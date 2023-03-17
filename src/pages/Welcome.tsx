@@ -114,7 +114,7 @@ const Welcome: React.FC = () => {
               color: token.colorTextHeading,
             }}
           >
-            欢迎来到 Ali Web3 社区 🔥 🔥
+            欢迎来到 Web3 Hub 🔥 🔥
           </div>
           <p
             style={{
@@ -141,7 +141,7 @@ const Welcome: React.FC = () => {
               index={1}
               href="https://test.com"
               title="了解我们"
-              desc="我们是阿里 Web3 探索的发起者和核心团队, 带着和社区共创的美好愿望和大家见面"
+              desc="我们是 Web3 探索的发起者和核心团队, 带着和社区共创的美好愿望和大家见面"
             />
             <InfoCard
               index={2}
@@ -153,7 +153,7 @@ const Welcome: React.FC = () => {
               index={3}
               title="了解社区"
               href="https://test.com"
-              desc="Web3 是一个新兴领域, 阿里有太多优秀的工程师、产品、设计、运营等等等等不同岗位的同学, 我们致力于将社区打造成一个大舞台"
+              desc="Web3 是一个新兴领域, 我们致力于将社区打造成一个大舞台"
             />
           </div>
         </div>
