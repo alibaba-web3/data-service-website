@@ -72,4 +72,4 @@ export const createRequest = (options: any) => {
   };
 };
 
-export default createRequest({ baseURL: 'http://8.222.145.211:8082/api' });
+export default createRequest({ baseURL: 'https://api.0x66.io/api' });

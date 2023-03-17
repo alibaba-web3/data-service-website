@@ -35,22 +35,22 @@ const Download: React.FC = () => {
     {
       tab: '1',
       title: 'Binance 现货价格-日线',
-      url: 'http://8.222.145.211:8082/api/download/spot/1d',
+      url: 'https://api.0x66.io/api/download/spot/1d',
     },
     {
       tab: '1',
       title: 'TVL',
-      url: 'http://8.222.145.211:8082/api/download/tvl/1d',
+      url: 'https://api.0x66.io/api/download/tvl/1d',
     },
     {
       tab: '1',
       title: '合约调用次数',
-      url: 'http://8.222.145.211:8082/api/download/erc20/user/1d',
+      url: 'https://api.0x66.io/api/download/erc20/user/1d',
     },
     {
       tab: '1',
       title: '项目利润数据',
-      url: 'http://8.222.145.211:8082/api/download/profit/1d',
+      url: 'https://api.0x66.io/api/download/profit/1d',
     },
     {
       tab: '2',
