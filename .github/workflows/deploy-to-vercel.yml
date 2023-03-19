@@ -10,6 +10,6 @@ jobs:
         with:
           source_repo: 'git@github.com:alibaba-web3/data-service-website.git'
           source_branch: 'main'
-          destination_repo: 'git@github.com:cxw-crypto/data-service-website.git'
+          destination_repo: 'git@github.com:crypto-bear-cn/data-service-website.git'
           destination_branch: 'main'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
