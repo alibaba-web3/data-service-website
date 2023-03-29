@@ -1,20 +1,18 @@
+import request from '@/utils/request';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ProColumns,
-  ProFormSelect,
-} from '@ant-design/pro-components';
-import {
   ModalForm,
   PageContainer,
+  ProColumns,
+  ProFormSelect,
   ProFormText,
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
 import { Button } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import request from '@/utils/request';
 import * as _ from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 
 const TableList: React.FC = () => {
   const [createTagModalOpen, handleTagModalOpen] = useState<boolean>(false);
@@ -47,13 +45,18 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns[] = [
     {
+      title: '名称',
+      dataIndex: 'name',
+      hideInSearch: true,
+    },
+    {
       title: '类别',
       dataIndex: 'categoryId',
       valueEnum,
     },
     {
-      title: '名称',
-      dataIndex: 'name',
+      title: '创建人',
+      dataIndex: 'creator',
       hideInSearch: true,
     },
     {
@@ -149,6 +152,17 @@ const TableList: React.FC = () => {
               message: '需要选择类别',
             },
           ]}
+        />
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: '需要输入创建人',
+            },
+          ]}
+          width="md"
+          name="creator"
+          label="创建人"
         />
         <ProFormTextArea label="标签备注" width="md" name="note" />
       </ModalForm>
