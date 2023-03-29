@@ -1,80 +1,41 @@
+import request from '@/utils/request';
 import { DownloadOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
-import { Button, Card, List, Tabs } from 'antd';
-import React from 'react';
+import { Card, Input, List } from 'antd';
+import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 
-const { TabPane } = Tabs;
-
-const tabData = [
-  {
-    key: '1',
-    title: '量化回测数据',
-  },
-  {
-    key: '2',
-    title: '其他数据',
-  },
-];
-
-interface ListDataType {
-  tab: string;
-  title: string;
-  url: string;
-}
-
-function renderTabBar(props: any, DefaultTabBar: any) {
-  return (
-    <div style={{ padding: '0, 24px' }}>
-      <DefaultTabBar {...props} />
-    </div>
-  );
-}
+const { Search } = Input;
 
 const Download: React.FC = () => {
-  const listData = [
-    {
-      tab: '1',
-      title: 'Binance 现货价格-日线',
-      url: 'https://api.0x66.io/api/download/spot/1d',
-    },
-    {
-      tab: '1',
-      title: 'TVL',
-      url: 'https://api.0x66.io/api/download/tvl/1d',
-    },
-    {
-      tab: '1',
-      title: '合约调用次数',
-      url: 'https://api.0x66.io/api/download/erc20/user/1d',
-    },
-    {
-      tab: '1',
-      title: '项目利润数据',
-      url: 'https://api.0x66.io/api/download/profit/1d',
-    },
-    {
-      tab: '2',
-      title: 'Coming Soon',
-      url: 'https://test1.com',
-    },
-  ];
+  const listRef = useRef<string[]>([]);
+  const [list, setList] = useState<string[]>([]);
 
-  /**
-   * 渲染下载列表数据
-   * @param key
-   * @param listData
-   */
-  const renderListData = (key: string, listData: ListDataType[]) => {
-    return listData.filter((item) => item.tab === key);
+  // 获取表数据
+  const fetchList = async () => {
+    const res: any = await request.get('/download/table/list');
+
+    if (res) {
+      listRef.current = res;
+      setList(res);
+    }
   };
 
-  /**
-   * 下载文件
-   * @param url
-   */
-  const downloadFile = (url: string) => {
-    // 解决 http 下载问题
-    window.open(url, '_blank');
+  useEffect(() => {
+    fetchList();
+  }, []);
+
+  // 搜索表名
+  const onSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setList(
+      listRef.current.filter((el: string) =>
+        el.includes(e.target.value.trim()),
+      ),
+    );
+  };
+
+  // 表数据下载
+  const onDownload = (name: string) => {
+    window.open(`/download/${name}`, '_blank');
   };
 
   return (
@@ -94,31 +55,29 @@ const Download: React.FC = () => {
           </div>
         }
       >
-        <Tabs
-          defaultActiveKey="1"
-          renderTabBar={renderTabBar}
-          tabPosition="left"
-          style={{ height: 620 }}
-        >
-          {tabData.map((tab) => (
-            <TabPane tab={tab.title} key={tab.key}>
-              <List
-                bordered
-                dataSource={renderListData(tab.key, listData)}
-                renderItem={(item) => (
-                  <List.Item>
-                    <List.Item.Meta title={item.title} />
-                    <Button
-                      type="primary"
-                      icon={<DownloadOutlined />}
-                      onClick={() => downloadFile(item.url)}
-                    />
-                  </List.Item>
-                )}
-              />
-            </TabPane>
-          ))}
-        </Tabs>
+        <Search
+          placeholder="请输入"
+          size="large"
+          onChange={onSearch}
+          enterButton
+          style={{ width: 560, marginBottom: 40 }}
+        />
+
+        <List
+          size="large"
+          dataSource={list}
+          renderItem={(item) => (
+            <List.Item
+              actions={[
+                <a key="list-loadmore-download">
+                  <DownloadOutlined onClick={() => onDownload(item)} />
+                </a>,
+              ]}
+            >
+              {item}
+            </List.Item>
+          )}
+        />
       </Card>
     </PageContainer>
   );
