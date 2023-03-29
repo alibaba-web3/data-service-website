@@ -1,21 +1,19 @@
-import { PlusOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import request from '@/utils/request';
+import { ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ProColumns,
-  ProFormSelect,
   FormInstance,
-} from '@ant-design/pro-components';
-import {
   ModalForm,
   PageContainer,
+  ProColumns,
+  ProFormSelect,
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
-import { Button, Modal } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from '@umijs/max';
-import request from '@/utils/request';
+import { Button, Modal } from 'antd';
 import * as _ from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 
 const { confirm } = Modal;
 
@@ -41,7 +39,7 @@ const TableList: React.FC = () => {
     tags,
     (res: any, cur: any) => {
       res[cur.id] = {
-        text: cur.name,
+        text: `${cur.name} (${cur.creator})`,
         id: cur.id,
       };
       return res;
@@ -51,15 +49,15 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns[] = [
     {
-      title: '标签',
-      dataIndex: 'tagId',
-      valueEnum,
-    },
-    {
-      title: '地址',
+      title: '钱包地址',
       dataIndex: 'address',
       hideInSearch: true,
       copyable: true,
+    },
+    {
+      title: '标签',
+      dataIndex: 'tagId',
+      valueEnum,
     },
     {
       title: '操作',
