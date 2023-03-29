@@ -35,7 +35,7 @@ const Download: React.FC = () => {
 
   // 表数据下载
   const onDownload = (name: string) => {
-    window.open(`/download/${name}`, '_blank');
+    window.open(`/api/download/${name}`, '_blank');
   };
 
   return (
