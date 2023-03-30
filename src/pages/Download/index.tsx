@@ -4,6 +4,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { Card, Input, List, Select } from 'antd';
 import React, { ChangeEventHandler, useEffect, useState } from 'react';
+import { QuantLinks } from './QuantLinks';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -66,6 +67,9 @@ const Download: React.FC = () => {
           </div>
         }
       >
+        <h3 style={{ marginTop: 0 }}>量化数据</h3>
+        <QuantLinks />
+        <h3 style={{ marginTop: 30 }}>其它数据</h3>
         <Search
           addonBefore={
             <Select
@@ -87,10 +91,10 @@ const Download: React.FC = () => {
           size="large"
           onChange={onSearch}
           enterButton
-          style={{ width: 580, marginBottom: 40 }}
+          style={{ width: 580, marginBottom: 20 }}
         />
-
         <List
+          bordered
           size="large"
           dataSource={renderList}
           renderItem={(item) => (
