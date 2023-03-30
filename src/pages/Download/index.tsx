@@ -1,42 +1,50 @@
+import { projectEnum } from '@/constant/index';
 import request from '@/utils/request';
 import { DownloadOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
-import { Card, Input, List } from 'antd';
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import { Card, Input, List, Select } from 'antd';
+import React, { ChangeEventHandler, useEffect, useState } from 'react';
 
 const { Search } = Input;
+const { Option } = Select;
 
 const Download: React.FC = () => {
-  const listRef = useRef<string[]>([]);
   const [list, setList] = useState<string[]>([]);
+  const [searchText, setSearchText] = useState<string>('');
+  const [projectName, setProjectName] = useState<string>(projectEnum[0].value);
 
   // 获取表数据
   const fetchList = async () => {
-    const res: any = await request.get('/download/table/list');
-
+    const res: any = await request.get('/download/table/list', { projectName });
     if (res) {
-      listRef.current = res;
       setList(res);
     }
   };
 
   useEffect(() => {
     fetchList();
-  }, []);
+  }, [projectName]);
+
+  // 数据库更改
+  const handleChange = (value: string) => {
+    setProjectName(value);
+  };
 
   // 搜索表名
   const onSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setList(
-      listRef.current.filter((el: string) =>
-        el.includes(e.target.value.trim()),
-      ),
-    );
+    setSearchText(e.target.value.trim());
   };
 
   // 表数据下载
   const onDownload = (name: string) => {
-    window.open(`/api/download/${name}`, '_blank');
+    window.open(`https://api.0x66.io/api/download/${name}`, '_blank');
   };
+
+  // 如果有搜索条件，则返回所有条件对应数据
+  let renderList = list;
+  if (searchText) {
+    renderList = list.filter((el: string) => el.includes(searchText));
+  }
 
   return (
     <PageContainer>
@@ -56,16 +64,32 @@ const Download: React.FC = () => {
         }
       >
         <Search
+          addonBefore={
+            <Select
+              defaultValue={projectName}
+              size="large"
+              style={{ width: 196 }}
+              onChange={handleChange}
+            >
+              {projectEnum.map((item) => {
+                return (
+                  <Option key={item.value} value={item.value}>
+                    {item.label}
+                  </Option>
+                );
+              })}
+            </Select>
+          }
           placeholder="请输入"
           size="large"
           onChange={onSearch}
           enterButton
-          style={{ width: 560, marginBottom: 40 }}
+          style={{ width: 580, marginBottom: 40 }}
         />
 
         <List
           size="large"
-          dataSource={list}
+          dataSource={renderList}
           renderItem={(item) => (
             <List.Item
               actions={[
