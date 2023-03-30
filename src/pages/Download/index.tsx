@@ -37,7 +37,10 @@ const Download: React.FC = () => {
 
   // 表数据下载
   const onDownload = (name: string) => {
-    window.open(`https://api.0x66.io/api/download/${name}`, '_blank');
+    window.open(
+      `https://api.0x66.io/api/download/${projectName}/${name}`,
+      '_blank',
+    );
   };
 
   // 如果有搜索条件，则返回所有条件对应数据
