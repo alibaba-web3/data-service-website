@@ -1,3 +1,4 @@
+import { creatorEnum } from '@/constant/index';
 import request from '@/utils/request';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -97,21 +98,16 @@ const TableList: React.FC = () => {
           </Button>,
         ]}
         request={async (params: any) => {
-          let res: any;
-          if (params.categoryId) {
-            res = await request.get('/tag/page', params);
-            return {
-              data: res.list,
-              total: res.total,
-              success: true,
-            };
-          } else {
-            res = await request.get('/tag/list', params);
-            return {
-              data: res,
-              success: true,
-            };
-          }
+          const { current, ...arg } = params;
+          const res: any = await request.get('/tag/page', {
+            pageNum: current,
+            ...arg,
+          });
+          return {
+            data: res.list,
+            total: res.total,
+            success: true,
+          };
         }}
         columns={columns}
       />
@@ -153,16 +149,17 @@ const TableList: React.FC = () => {
             },
           ]}
         />
-        <ProFormText
+        <ProFormSelect
+          name="creator"
+          label="创建人"
+          width="md"
+          valueEnum={creatorEnum}
           rules={[
             {
               required: true,
-              message: '需要输入创建人',
+              message: '需要选择创建人',
             },
           ]}
-          width="md"
-          name="creator"
-          label="创建人"
         />
         <ProFormTextArea label="标签备注" width="md" name="note" />
       </ModalForm>

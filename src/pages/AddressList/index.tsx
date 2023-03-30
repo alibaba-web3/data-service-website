@@ -1,3 +1,4 @@
+import { creatorEnum } from '@/constant/index';
 import request from '@/utils/request';
 import { ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons';
 import {
@@ -39,7 +40,7 @@ const TableList: React.FC = () => {
     tags,
     (res: any, cur: any) => {
       res[cur.id] = {
-        text: `${cur.name} (${cur.creator})`,
+        text: cur.name,
         id: cur.id,
       };
       return res;
@@ -60,13 +61,20 @@ const TableList: React.FC = () => {
       valueEnum,
     },
     {
+      title: '创建人',
+      dataIndex: 'creator',
+      valueEnum: creatorEnum,
+    },
+    {
       title: '操作',
       key: 'action',
       sorter: true,
       valueType: 'option',
       render: (value: any, record: any) => [
-        <a
+        <Button
           key="delete"
+          type="link"
+          disabled={record.official === '1'}
           onClick={() => {
             confirm({
               title: '删除地址',
@@ -83,9 +91,10 @@ const TableList: React.FC = () => {
               onCancel() {},
             });
           }}
+          style={{ padding: 0 }}
         >
           删除
-        </a>,
+        </Button>,
       ],
     },
   ];
@@ -122,10 +131,10 @@ const TableList: React.FC = () => {
           </Button>,
         ]}
         request={async (params: any) => {
+          const { current, ...arg } = params;
           const res: any = await request.get('/tag/address/page', {
-            tagId: params.tagId,
-            pageNum: params.current,
-            pageSize: params.pageSize,
+            pageNum: current,
+            ...arg,
           });
           return {
             data: res.list,
@@ -170,6 +179,18 @@ const TableList: React.FC = () => {
             {
               required: true,
               message: '需要选择标签分类',
+            },
+          ]}
+        />
+        <ProFormSelect
+          name="creator"
+          label="创建人"
+          width="md"
+          valueEnum={creatorEnum}
+          rules={[
+            {
+              required: true,
+              message: '需要选择创建人',
             },
           ]}
         />
